@@ -7,5 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "leojpod",
-  "license": "WTFPL"
+  "license": "WTFPL",
+  "dependencies": {
+    "async-fibo": "^1.0.1"
+  }
 }
