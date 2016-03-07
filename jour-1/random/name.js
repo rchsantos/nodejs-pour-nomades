@@ -4,7 +4,10 @@
 
 var names = [
   'leo',
-  ''
+  'Fredrik',
+  'Alexandre',
+  'Richardson',
+  'Thoai Nghia'
 ];
 
 module.exports = function () {
