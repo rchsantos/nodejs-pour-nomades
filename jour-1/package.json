@@ -1,0 +1,23 @@
+{
+  "name": "helloword",
+  "version": "1.0.0",
+  "description": "Initianlisation serveur NodeJs avec un Hello Word",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rchsantos/nodejs-pour-nomades.git"
+  },
+  "keywords": [
+    "nodejs",
+    "rchsantos"
+  ],
+  "author": "Richardson Santos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rchsantos/nodejs-pour-nomades/issues"
+  },
+  "homepage": "https://github.com/rchsantos/nodejs-pour-nomades#readme"
+}
