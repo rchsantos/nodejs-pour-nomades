@@ -4,6 +4,7 @@
 var http = require('http');
 var url = require('url');
 var qs = require('querystring');
+var Analysis = require('./analysis');
 
 function handleRequest(request, response) {
   var bodyString = '';
@@ -28,8 +29,9 @@ function handleRequest(request, response) {
   /*TODO
   changer ensuite le code pour que ces informations soient disponible dans
   l'object request directement (ajouter/modifier dynamiquement des propriétés)
-   */
-
+  utiliser analysis comme ceci une fois que votre objet request est surchargé:
+  var analysis = new Analysis().analyseRequest(request).displayJSON(response);
+  */
 }
 
 var server = http.createServer(handleRequest);
