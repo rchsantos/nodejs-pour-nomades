@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/rchsantos/nodejs-pour-nomades/issues"
   },
-  "homepage": "https://github.com/rchsantos/nodejs-pour-nomades#readme"
+  "homepage": "https://github.com/rchsantos/nodejs-pour-nomades#readme",
+  "dependencies": {
+    "async-fibo": "^1.0.1"
+  }
 }
