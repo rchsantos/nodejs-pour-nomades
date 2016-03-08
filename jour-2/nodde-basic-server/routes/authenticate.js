@@ -19,8 +19,13 @@ var authentication = {
     return (mockUpData.users.john.password === candidatePassword);
   },
 
+  /**
+   *
+   * @param {ClientRequest} req
+   * @param {function} next
+     */
   isRequestAuthenticated: function(req, next) {
-    var params = req.body || req.query;
+    var params = req.post || req.query;
     var token = params.token || req.headers['x-access-token'] || undefined;
     if (token === undefined) {
       next(false);
@@ -39,7 +44,7 @@ var authentication = {
       case 'GET':
         //return authentication status
         //i.e. check for authentication token in the request and check it's validity
-        this.isRequestAuthenticated(req, function(isAuth) {
+        this.isRequestAuthenticated(req, function (isAuth) {
           res.writeHead(200);
           if (isAuth) {
             //then return success message
@@ -53,23 +58,22 @@ var authentication = {
         break;
       case 'POST':
         // extract authentication parameter, check if they are correct and return a token if they are
-        if (req.body === undefined) {
+        if (req.post === undefined) {
           res.writeHead(403);
           res.write('{ "success": false, "error": "missing parameters" }');
-          res.end();
+          res.end(0);
           return;
         }
-        if (this.authenticateUser(req.body.identifier, req.body.password)) {
+        if (this.authenticateUser(req.post.identifier, req.post.password)) {
           //use jwt to generate a token and send it
-          jwt.sign({ id: mockUpData.users.john.id }, config.secretTokenKey, {
+          var token = jwt.sign({id: mockUpData.users.john.id}, config.secretTokenKey, {
             expiresIn: 86400 // = 24h * 60m * 60s
-          }, function(token) {
-            res.writeHead(200);
-            res.write('{ "success": true, "token": "' + token + '"}');
-            //res.write('{ "token": "' + token + '" }');
-            //res.write('{ "toktoken": "' + token + '" }');
-            res.end();
           });
+          res.writeHead(200);
+          res.write('{ "success": true, "token": "' + token + '"}');
+          //res.write('{ "token": "' + token + '" }');
+          //res.write('{ "toktoken": "' + token + '" }');
+          res.end();
         } else {
           res.writeHead(403);
           res.write('{ "success": false, "message": "wrong combination of password/identification"}');
