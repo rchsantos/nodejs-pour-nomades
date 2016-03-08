@@ -23,6 +23,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 
+
+var corsHeaders = {
+  "Access-Control-Allow-Origin": "http://localhost:4200",
+  "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Credentials": true,
+  "Access-Control-Max-Age": '86400', // 24 hours
+  "Access-Control-Allow-Headers": "X-Requested-With, Access-Control-Allow-Origin, X-HTTP-Method-Override, Content-Type, Authorization, Accept, x-access-token"
+};
+app.options('*', function(req, res, next) {
+  res.set(corsHeaders).end();
+});
+app.use(function(req, res, next) {
+  res.set(corsHeaders);
+  next();
+});
 app.use('/', routes);
 app.use('/users', users);
 
