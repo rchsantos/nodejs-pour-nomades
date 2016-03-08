@@ -6,10 +6,10 @@ var authentication = require('./routes/authenticate');
 var pools = require('./routes/pools.js');
 var users = require('./routes/users.js');
 
-var routing = {
+var router = {
   routeRequest: function(req, res) {
-    var reqUrl = url.parse(req.url);
-    var segments = reqUrl.pathname.split('/');
+    //TODO analyse the request and based on its URL forward the request
+    var segments = req.url.pathname.split('/');
     switch (segments[1]) {
       case 'authenticate':
         authentication.handleRequest(req, res);
@@ -22,11 +22,11 @@ var routing = {
         break;
       default:
         //unknown route:
-        res.writeHead(404, { 'content-type': 'application/json' });
+        res.writeHead(404);
         res.write('{ "error": "unknown route"}');
         res.end();
     }
   }
 };
 
-module.exports.routing = routing;
+module.exports = router;
