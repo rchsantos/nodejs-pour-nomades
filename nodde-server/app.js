@@ -16,7 +16,6 @@ var pools = require('./routes/pools');
 var users = require('./routes/users');
 var privateApi = require('./routes/private');
 var config = require('./config.js');
-
 var app = express();
 
 // view engine setup
@@ -26,9 +25,13 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+// use bodyParser middleware to decode json parameters
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+// use bodyParser middleware to decode urlencoded parameters
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator());
+// use cookieParser to extract cookie information from request
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 
