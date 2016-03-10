@@ -3,5 +3,6 @@
  */
 
 module.exports = {
-  secret: 'this is a bad secret sentence'
+  secret: 'this is a bad secret sentence',
+  database: 'mongodb://localhost:27017/nodejs'
 };

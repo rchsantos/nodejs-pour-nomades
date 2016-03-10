@@ -6,9 +6,10 @@ var jsonapi = require('jsonapi-serializer');
 var Serializer = jsonapi.Serializer;
 
 var PoolSerializer = new Serializer('pools', {
+  id: '_id',
   attributes: ['title', 'questions', 'author'],
   author: {
-    ref: 'id',
+    ref: '_id',
     attributes: ['name', 'email']
   },
   typeForAttribute: function (attribute) {

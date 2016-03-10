@@ -6,6 +6,7 @@ var jsonapi = require('jsonapi-serializer');
 var Serializer = jsonapi.Serializer;
 
 var UserSerializer = new Serializer('user', {
+  id: '_id',
   attributes: ['name', 'email']/*,
   relationships: {
     pools: {
