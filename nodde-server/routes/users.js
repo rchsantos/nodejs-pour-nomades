@@ -8,7 +8,7 @@ var router = express.Router();
 var UserSerializer = require('../serializers/user-serializer');
 var authentication = require('../authentication.js');
 
-var mockupData = require('../mock-up-data');
+var User = require('../models/user');
 
 /* GET users listing. */
 router.get('/', authentication.authenticatedRoute, function(req, res, next) {
@@ -60,58 +60,28 @@ router.post('/', function(req, res, next) {
   });
 
   var errors = req.validationErrors(true);
-  // if any of these parameter does not fit the criteria
-  if (errors) {
-    res.status(403).json({ success: false, errors: errors });
-    return;
-  }
-  //now we have valid parameters
-  var name = req.body.data.attributes.name,
-    email = req.body.data.attributes.email,
-    password = req.body.data.attributes.password;
-  //check with the database if name and email are unique
-  var db = req.db;
-  db.collection('users').findOne(
-    { $or: [{ name: name }, { email: email }] },
-    function(err, doc) {
+
+    //hash password
+    bcrypt.hash(password, 10, function(err, hash) {
       if (err) {
-        res.status(500).json({ success: false, errors: err });
-      } else {
-        if (doc) {
-          var whichParam = (doc.name === name) ? 'name' : 'email';
-          res.status(400).json({
-            success: false,
-            errors: {
-              param: whichParam,
-              error: 'non unique field'
-            }
-          });
-        } else {
-          //hash password
-          bcrypt.hash(password, 10, function(err, hash) {
-            if (err) {
-              throw err;
-            }
-            //create new user and insert it
-            db.collection('users').insertOne({
-              name: name,
-              email: email,
-              password: hash
-            }, function(err, result) {
-              if (err) {
-                res.status(500).json({ success: false, error: err });
-              } else {
-                var jsonMessage = UserSerializer.serialize(result.ops[0]);
-                res.json(jsonMessage);
-              }
-            });
-          });
-        }
+        throw err;
       }
-    }
-  );
+      //create new user and insert it
+      var newUser = new User ({
+        name: name,
+        email: email,
+        password: hash
+      });
 
-
+      newUser.save(function(err, result) {
+        if (err) {
+          res.status(500).json({ success: false, error: err });
+        } else {
+          var jsonMessage = UserSerializer.serialize(newUser);
+          res.json(jsonMessage);
+        }
+      });
+    });
 });
 
 module.exports = router;

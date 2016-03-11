@@ -8,7 +8,10 @@ var expressValidator = require('express-validator');
 var async = require('async');
 var bcrypt = require('bcrypt');
 
-var MongoClient = require('mongodb').MongoClient;
+
+var mongoose = require('mongoose');
+
+//var MongoClient = require('mongodb').MongoClient;
 
 var routes = require('./routes/index');
 var authenticate = require('./routes/authenticate');
@@ -38,7 +41,7 @@ app.use(cookieParser());
 var db;
 // connect to the database
 //console.log('about to connect to the db');
-MongoClient.connect(config.database, function(err, dbAccess) {
+/*MongoClient.connect(config.database, function(err, dbAccess) {
   //console.log('mongoClient connected');
   if (err) {
     throw err
@@ -82,14 +85,17 @@ MongoClient.connect(config.database, function(err, dbAccess) {
       }
     }
   ]);
-});
+});*/
+
+mongoose.connect(config.database);
 
 // use a middleware to place the db access on the request
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
   //console.log('setup the database in the request');
   req.db = db;
   next();
-});
+});*/
+
 var corsHeaders = {
   "Access-Control-Allow-Origin": "http://localhost:4200",
   "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE, OPTIONS",
